@@ -8,8 +8,12 @@ services:
     environment:
       - GEMINI_SANDBOX=docker
       - GEMINI_SANDBOX_IMAGE=ghcr.io/agentdrasil/test-code-agent-sandbox/gemini-cli-sandbox-image:main
-      - GEMINI_CLI_HOME=/home/user/.gemini
     volumes:
       - ~/.gemini:/home/user/.gemini
-      - /var/run/docker.sock:/var/run/docker.sock
+      # Dedicated volume for DinD — avoids overlay-on-overlay filesystem issues
+      - docker-data:/var/lib/docker
+    # Required for Docker-in-Docker daemon
     privileged: true
+
+volumes:
+  docker-data:

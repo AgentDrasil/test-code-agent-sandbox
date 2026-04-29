@@ -1,11 +1,29 @@
 #!/bin/sh
-if [ -e /var/run/docker.sock ]; then
-  DOCKER_GID=$(stat -c "%g" /var/run/docker.sock)
-  GROUP_NAME=$(grep ":$DOCKER_GID:" /etc/group | cut -d: -f1)
-  if [ -z "$GROUP_NAME" ]; then
-    GROUP_NAME=docker_host
-    addgroup -g $DOCKER_GID $GROUP_NAME
+
+# Start Docker-in-Docker daemon with explicit DNS to avoid resolution issues
+dockerd --host=unix:///var/run/docker.sock --dns 8.8.8.8 --dns 8.8.4.4 &
+
+# Wait for Docker daemon to be ready
+echo "Waiting for Docker daemon..."
+timeout=30
+while [ $timeout -gt 0 ]; do
+  if docker info >/dev/null 2>&1; then
+    echo "Docker daemon is ready."
+    break
   fi
-  adduser user $GROUP_NAME
+  timeout=$((timeout - 1))
+  sleep 1
+done
+
+if [ $timeout -eq 0 ]; then
+  echo "ERROR: Docker daemon failed to start within 30 seconds."
+  exit 1
 fi
+
+# Pre-pull the sandbox image if GEMINI_SANDBOX_IMAGE is set
+if [ -n "$GEMINI_SANDBOX_IMAGE" ]; then
+  echo "Pre-pulling sandbox image: $GEMINI_SANDBOX_IMAGE"
+  docker pull "$GEMINI_SANDBOX_IMAGE" || echo "WARNING: Failed to pre-pull sandbox image."
+fi
+
 exec su-exec user "$@"
