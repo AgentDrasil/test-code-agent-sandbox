@@ -1,0 +1,9 @@
+services:
+  gemini-cli:
+    container_name: gemini-cli
+    build:
+      context: .
+      dockerfile: gemini-cli.Dockerfile
+    working_dir: /home/user
+    volumes:
+      - ~/.gemini:/home/user/.gemini
