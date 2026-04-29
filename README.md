@@ -15,7 +15,9 @@ Most coding agents verify authentication during execution. Re-injecting authenti
 
 ## Supported Coding Agents
 
-1. TODO: [Gemini CLI](https://geminicli.com/)
+1. [Gemini CLI](https://geminicli.com/)
+    - Docker / Podman / Runsc: they all mount `~/.gemini` to sandbox, auth credentials still at risk. [link](https://github.com/google-gemini/gemini-cli/blob/6d7974f1effbe2a349e8d766e5cc5bd1874e1307/packages/cli/src/utils/sandbox.ts#L345-L348)
+    - LXC: TODO
 2. TODO: [Claude Code](https://claude.com/product/claude-code)
 3. TODO: [OpenCode](https://github.com/anomalyco/opencode)
 4. TODO: [Kilocode CLI](https://kilo.ai/docs/code-with-ai/platforms/cli)
