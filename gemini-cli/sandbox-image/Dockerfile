@@ -6,8 +6,8 @@ RUN apk add --no-cache \
     ca-certificates \
     curl \
     bind-tools \
-    gh \
     git \
+    github-cli \
     jq \
     less \
     lsof \
