@@ -1,6 +1,5 @@
 FROM alpine:latest
-
-RUN apk add --no-cache bash ca-certificates nodejs npm \
+RUN apk add --no-cache bash ca-certificates nodejs npm docker-cli su-exec \
     && update-ca-certificates
 
 # create user 1000:1000
@@ -9,6 +8,9 @@ RUN addgroup -g 1000 user && adduser -u 1000 -G user -s /bin/bash -D user
 # install gemini-cli
 RUN npm install -g @google/gemini-cli
 
-USER user
-WORKDIR /home/user
-RUN mkdir .gemini
+COPY entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+# Run infinitely loop
+CMD ["tail", "-f", "/dev/null"]

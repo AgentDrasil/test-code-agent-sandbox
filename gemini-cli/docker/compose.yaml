@@ -1,0 +1,15 @@
+services:
+  gemini-cli-with-docker-sandbox:
+    container_name: gemini-cli-with-docker-sandbox
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /home/user
+    environment:
+      - GEMINI_SANDBOX=docker
+      - GEMINI_SANDBOX_IMAGE=ghcr.io/agentdrasil/test-code-agent-sandbox/gemini-cli-sandbox-image:main
+      - GEMINI_CLI_HOME=/home/user/.gemini
+    volumes:
+      - ~/.gemini:/home/user/.gemini
+      - /var/run/docker.sock:/var/run/docker.sock
+    privileged: true
