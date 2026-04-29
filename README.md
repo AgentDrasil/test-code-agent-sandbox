@@ -15,12 +15,16 @@ Most coding agents verify authentication during execution. Re-injecting authenti
 
 ## Supported Coding Agents
 
-1. [Gemini CLI](https://geminicli.com/)
+- [Gemini CLI](https://geminicli.com/)
+    - Tool Sandbox: Bubblewrap based, allow read only from "root". Not what we want. [link](https://github.com/google-gemini/gemini-cli/blob/6d7974f1/packages/core/src/sandbox/linux/bwrapArgsBuilder.ts#L54-L58)
     - Docker / Podman / Runsc: they all mount `~/.gemini` to sandbox, auth credentials still at risk. [link](https://github.com/google-gemini/gemini-cli/blob/6d7974f1effbe2a349e8d766e5cc5bd1874e1307/packages/cli/src/utils/sandbox.ts#L345-L348)
-    - LXC: TODO
-2. TODO: [Claude Code](https://claude.com/product/claude-code)
-3. TODO: [OpenCode](https://github.com/anomalyco/opencode)
-4. TODO: [Kilocode CLI](https://kilo.ai/docs/code-with-ai/platforms/cli)
+    - LXC: Only support use API Key to auth, and it will pass the key to container via Env.
+    - fake bash:
+        - gemini cli only try to resolve `bash` and use `bash` to run commands. [link](https://github.com/google-gemini/gemini-cli/blob/6d7974f1effbe2a349e8d766e5cc5bd1874e1307/packages/core/src/utils/shell-utils.ts#L663)
+        - This works well for our usecase.
+- TODO: [Claude Code](https://claude.com/product/claude-code)
+- TODO: [OpenCode](https://github.com/anomalyco/opencode)
+- TODO: [Kilocode CLI](https://kilo.ai/docs/code-with-ai/platforms/cli)
 
 ## License
 

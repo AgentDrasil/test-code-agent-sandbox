@@ -1,0 +1,16 @@
+services:
+  gemini-cli:
+    container_name: gemini-cli-fake-bash
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /home/user
+    volumes:
+      - ~/.gemini:/home/user/.gemini
+      - /var/run/docker.sock:/var/run/docker.sock
+  sandbox:
+    container_name: gemini-cli-sandbox
+    build:
+      context: .
+      dockerfile: sandbox.Dockerfile
+    working_dir: /home/user

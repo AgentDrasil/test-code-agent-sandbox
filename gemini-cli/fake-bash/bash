@@ -1,0 +1,34 @@
+#!/bin/sh
+
+# Fake bash - proxies commands to the sandbox container via docker exec
+LOG=/tmp/fake-bash.log
+
+echo "=== $(date) ===" >> "$LOG"
+echo "args: $@" >> "$LOG"
+
+if [ "$1" = "-c" ]; then
+    shift
+    cmd="$*"
+    echo "mode: -c, command: $cmd" >> "$LOG"
+
+    # Extract /tmp/gemini-shell-* dir and pre-create in sandbox
+    tmpdir=$(echo "$cmd" | grep -o '/tmp/gemini-shell-[^/]*' | head -1)
+    if [ -n "$tmpdir" ]; then
+        docker exec gemini-cli-sandbox mkdir -p "$tmpdir" 2>/dev/null
+    fi
+
+    # Run command in sandbox
+    docker exec gemini-cli-sandbox bash -c "$cmd"
+    rc=$?
+
+    # Create pgrep.tmp in main container for gemini-cli to read
+    if [ -n "$tmpdir" ]; then
+        touch "$tmpdir/pgrep.tmp" 2>/dev/null || true
+    fi
+
+    echo "exit code: $rc" >> "$LOG"
+    exit $rc
+else
+    echo "mode: passthrough" >> "$LOG"
+    exec docker exec gemini-cli-sandbox bash "$@"
+fi
