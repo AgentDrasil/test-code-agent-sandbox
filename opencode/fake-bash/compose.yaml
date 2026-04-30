@@ -1,0 +1,17 @@
+services:
+  opencode:
+    container_name: opencode-fake-bash
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /home/user
+    volumes:
+      - ~/.local/share/opencode/auth.json:/home/user/.local/share/opencode/auth.json
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  sandbox:
+    container_name: opencode-sandbox
+    build:
+      context: .
+      dockerfile: sandbox.Dockerfile
+    working_dir: /home/user

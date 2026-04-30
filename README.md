@@ -24,9 +24,10 @@ Most coding agents verify authentication during execution. Re-injecting authenti
         - This works well for our usecase.
 - [Claude Code](https://claude.com/product/claude-code)
     - fake bash:
-        - claude code only try to resolve `bash` or `z`. Add the fake `bash` to PATH, or use `CLAUDE_CODE_SHELL` env to specify the shell. When claude code wants to run commands, it will execute `bash -c -l "..."`  to run commands.
+        - claude code only try to resolve `bash` or `zsh`. Add the fake `bash` to PATH, or use `CLAUDE_CODE_SHELL` env to specify the shell. When claude code wants to run commands, it will execute `bash -c -l "..."`  to run commands.
     - Bubblewrap: can use `sandbox.filesystem.denyRead` to exclude unwanted file/dir.
-- TODO: [OpenCode](https://github.com/anomalyco/opencode)
+- [OpenCode](https://github.com/anomalyco/opencode)
+    - fake bash: works for opencode
 - TODO: [Kilocode CLI](https://kilo.ai/docs/code-with-ai/platforms/cli)
 
 ## License
