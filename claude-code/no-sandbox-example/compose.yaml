@@ -1,0 +1,9 @@
+services:
+  claude-code:
+    container_name: claude-code
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /home/user
+    volumes:
+      - ~/.claude:/home/user/.claude
