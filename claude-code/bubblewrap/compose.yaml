@@ -1,0 +1,9 @@
+services:
+  claude-code:
+    container_name: claude-code-bubblewrap
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /home/user
+    volumes:
+      - ~/.claude/settings-sandbox.json:/home/user/.claude/settings.json

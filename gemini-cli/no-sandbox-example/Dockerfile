@@ -1,5 +1,5 @@
 FROM alpine:latest
-RUN apk add --no-cache ca-certificates nodejs npm \
+RUN apk add --no-cache bash ca-certificates nodejs npm \
     && update-ca-certificates
 
 # create user 1000:1000
