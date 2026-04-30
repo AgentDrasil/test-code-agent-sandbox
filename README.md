@@ -22,7 +22,9 @@ Most coding agents verify authentication during execution. Re-injecting authenti
     - fake bash:
         - gemini cli only try to resolve `bash` and use `bash` to run commands. [link](https://github.com/google-gemini/gemini-cli/blob/6d7974f1effbe2a349e8d766e5cc5bd1874e1307/packages/core/src/utils/shell-utils.ts#L663)
         - This works well for our usecase.
-- TODO: [Claude Code](https://claude.com/product/claude-code)
+- [Claude Code](https://claude.com/product/claude-code)
+    - fake bash:
+        - claude code only try to resolve `bash` or `z`. Add the fake `bash` to PATH, or use `CLAUDE_CODE_SHELL` env to specify the shell. When claude code wants to run commands, it will execute `bash -c -l "..."`  to run commands.
 - TODO: [OpenCode](https://github.com/anomalyco/opencode)
 - TODO: [Kilocode CLI](https://kilo.ai/docs/code-with-ai/platforms/cli)
 

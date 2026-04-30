@@ -1,0 +1,19 @@
+services:
+  claude-code:
+    container_name: claude-code-fake-bash
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /home/user
+    volumes:
+      - ~/.claude:/home/user/.claude
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - sandbox
+
+  sandbox:
+    container_name: claude-code-sandbox
+    build:
+      context: .
+      dockerfile: sandbox.Dockerfile
+    working_dir: /home/user
