@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# Fake bash - proxies commands to the sandbox container via docker exec
+LOG=/tmp/fake-bash.log
+
+echo "=== $(date) ===" >> "$LOG"
+echo "args: $@" >> "$LOG"
+
+if [ "$1" = "-c" ]; then
+    shift
+    
+    # Handle -l flag if present (login shell)
+    BASH_FLAGS=""
+    if [ "$1" = "-l" ]; then
+        BASH_FLAGS="-l"
+        shift
+    fi
+
+    cmd="$*"
+    echo "mode: -c, flags: $BASH_FLAGS, command: $cmd" >> "$LOG"
+
+    # Run command in sandbox
+    docker exec kilo-sandbox bash $BASH_FLAGS -c "$cmd"
+    rc=$?
+
+    echo "exit code: $rc" >> "$LOG"
+    exit $rc
+else
+    echo "mode: passthrough" >> "$LOG"
+    exec docker exec kilo-sandbox bash "$@"
+fi

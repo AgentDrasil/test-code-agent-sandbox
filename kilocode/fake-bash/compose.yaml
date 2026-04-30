@@ -1,0 +1,18 @@
+services:
+  kilocode:
+    container_name: kilocode-fake-bash
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /home/user
+    volumes:
+      - ~/.local/share/kilo/auth.json:/home/user/.local/share/kilo/auth.json
+      - ~/.config/kilo/kilo.jsonc:/home/user/.config/kilo/kilo.jsonc
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  sandbox:
+    container_name: kilo-sandbox
+    build:
+      context: .
+      dockerfile: sandbox.Dockerfile
+    working_dir: /home/user
