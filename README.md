@@ -26,6 +26,9 @@ When the agent attempts to run a command (e.g., `bash -c "npm test"`), our wrapp
 
 This ensures the agent (which holds the credentials) never actually executes code in its own environment.
 
+> [!TIP]
+> **Production Architecture:** The `fake-bash` implementations in this repository are simplified examples using `docker exec`. For a more secure production environment, the wrapper could be implemented as a client communicating with an internal HTTP server inside the sandbox. This approach allows command execution over an internal network, eliminating the need to expose the Docker socket to the agent container.
+
 ## Supported Coding Agents
 
 | Agent | Sandbox Strategy | Notes |
